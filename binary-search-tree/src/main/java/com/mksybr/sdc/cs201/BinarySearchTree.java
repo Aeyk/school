@@ -10,20 +10,6 @@ public class BinarySearchTree {
     static private Tree<Integer> tree = new Tree<Integer>();
     static private Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        // Tree t = new Tree<Integer>(new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8)));
-        // System.out.println(t.toStringInOrder());
-        // t.remove(7);
-        // System.out.println(t.toString());
-        // Tree f = new Tree<Integer>(new ArrayList<Integer>(Arrays.asList(4,2,3,10,11,9)));
-        // System.out.println(f.toString());
-        // f.remove(10);
-        // System.out.println(f.toString());
-        // var f = new Tree<Integer>(new ArrayList<Integer>(Arrays.asList(4,2,3,10,11,9)));
-        // System.out.println(f.toString());
-        // System.out.println(f.inorder());
-        // System.out.println(f.toStringPreOrder());
-        // System.out.println(f.toStringPostOrder());
-
         while(true) {
             System.out.println("1) Create a binary search tree\r\n" + //
             "2) Add a node\r\n" + //
