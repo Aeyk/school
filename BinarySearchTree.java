@@ -30,7 +30,10 @@ public class BinarySearchTree {
                         "7) Exit program");
         var choice = scanner.nextInt();
         switch(choice) {
-            case 7 -> System.exit(0);
+            case 7 -> {
+                scanner.close();
+                System.exit(0);
+            }
             default -> System.out.println("Invalid option selected.");
         }
     }
