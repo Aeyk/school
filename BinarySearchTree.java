@@ -68,21 +68,18 @@ class Tree<T extends Comparable<T>> {
         return sb.toString();
     }   
 
-    public String toStringInOrder() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toStringInOrder'");
+    public List<Node<T>> inorder() {
+        return root.inorder();
     }
 
     
-    public String toStringPreOrder() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toStringPreOrder'");
+    public List<Node<T>> preorder() {
+        return root.preorder();
     }
 
     
-    public String toStringPostOrder() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toStringPostOrder'");
+    public List<Node<T>> postorder() {
+        return root.postorder();
     }
 
 }
@@ -138,7 +135,76 @@ class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
         }
     }
 
-    public Node getLeft() {
+    public List<Node<T>> inorder() {
+        return this.inorder(null);
+    }
+
+    public List<Node<T>> inorder(List<Node<T>> accumulator) {
+        if(null == accumulator)
+            accumulator = new ArrayList<Node<T>>();
+        if(this.getLeft() != null)
+            this.getLeft().inorder(accumulator);
+        accumulator.add(this);
+        if(this.getRight() != null)
+            this.getRight().inorder(accumulator);
+        return accumulator;
+    }
+
+    public List<Node<T>> preorder() {
+        return this.preorder(null);
+    }
+
+    public List<Node<T>> preorder(List<Node<T>> accumulator) {
+        if(null == accumulator)
+            accumulator = new ArrayList<Node<T>>();
+        accumulator.add(this);
+            if(this.getLeft() != null)
+            this.getLeft().preorder(accumulator);
+        if(this.getRight() != null)
+            this.getRight().preorder(accumulator);
+        return accumulator;
+    }
+
+    public List<Node<T>> postorder() {
+        return this.postorder(null);
+    }
+
+    public List<Node<T>> postorder(List<Node<T>> accumulator) {
+        if(null == accumulator)
+            accumulator = new ArrayList<Node<T>>();
+        if(this.getLeft() != null)
+            this.getLeft().postorder(accumulator);
+        if(this.getRight() != null)
+            this.getRight().postorder(accumulator);
+        accumulator.add(this);
+        return accumulator;
+    }
+    public Node<T> predecessor() {
+        return this.predecessor(null);
+    }
+    public Node<T> predecessor(Node<T> key) {
+        if(key == null) {
+            key = this;
+        }
+        List<Node<T>> inorder = inorder(null);
+        if(inorder.get(inorder.indexOf(key) - 1) != null)
+            return inorder.get(inorder.indexOf(key) - 1);
+        else return null;
+    }
+
+    public Node<T> successor() {
+        return this.successor(null);
+    }
+
+    public Node<T> successor(Node<T> key) {
+        if(key == null) {
+            key = this;
+        }
+        List<Node<T>> inorder = inorder(null);
+        if(inorder.get(inorder.indexOf(key) - 1) != null)
+            return inorder.get(inorder.indexOf(key) + 1);
+        else return null;    }
+
     public Node<T> getLeft() {
         return left;
     }
