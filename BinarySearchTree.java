@@ -89,12 +89,12 @@ class Tree<T extends Comparable<T>> {
 class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
     private T t;
     private Node parent;
-    private Node left;
-    private Node right;
+    private Node<T> left;
+    private Node<T> right;
     Node(T t) {
         this.t = t;
     }
-    Node(Node parent, T t) {
+    Node(Node<T> parent, T t) {
         this.t = t;
         this.parent = parent;
     }
@@ -139,9 +139,10 @@ class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
     }
 
     public Node getLeft() {
+    public Node<T> getLeft() {
         return left;
     }
-    public Node getRight() {
+    public Node<T> getRight() {
         return right;
     }    
     public void addLeft(T left) {
