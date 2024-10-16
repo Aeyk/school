@@ -1,0 +1,774 @@
+% !TeX TXS-program:compile = txs:///pdflatex/[--shell-escape]
+
+\documentclass{article}
+
+\usepackage[pdf]{graphviz}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{amssymb}
+
+\newcolumntype{L}{>{$}l<{$}} % math-mode version of "l" column type
+
+\newcommand*{\Comb}[2]{{}_{#1}C_{#2}}%
+
+\newcommand*{\RComb}[2]{\frac{#1!}{#2!(#1-#2)!}}%
+
+\newcommand*{\Perm}[2]{{}_{#1}\!P_{#2}}%
+
+\newcommand*{\Binom}[3]{B(#1; #2, #3) & = \Comb{#2}{#1} \cdot {#3}^{#1} \cdot (1-{#3})^{{#2}-{#1}}}%
+
+\newcommand*{\RBinom}[3]{& = \RComb{#2}{#1} \cdot {#3}^{#1} \cdot (1-#3)^{{#2}-{#1}} \\}%
+
+\newcommand*{\StandardDeviation}[2]{\sqrt{{#1} \cdot {#2} \cdot (1 - {#2})}}
+
+%%% Helper code for Overleaf's build system to
+%%% automatically update output drawings when
+%%% code in a \digraph{...} is modified
+\usepackage{xpatch}
+\makeatletter
+\newcommand*{\addFileDependency}[1]{% argument=file name and extension
+  \typeout{(#1)}
+  \@addtofilelist{#1}
+  \IfFileExists{#1}{}{\typeout{No file #1.}}
+}
+\makeatother
+\xpretocmd{\digraph}{\addFileDependency{#2.dot}}{}{}
+\begin{document}  
+
+Combination $\binom{n}{k} = \Comb{n}{k} = \frac{n!}{k!(n-k)!}$ (all combinations)
+
+Permutation $\binom{n}{k} = \Perm{n}{k} = \frac{n!}{(n-k)!}$ (order matters)
+
+
+Probability of four of a kind
+
+$\binom{52}{5} = \Comb{52}{5} = 2,598,960$ possible poker hands
+
+Four of a kind
+
+$\binom{13}{1} = 13 $ rank of card
+
+$\binom{4}{4} = \Comb{4}{4} = \frac{4!}{4!(4-4)!} = 1$ suite of card
+
+Last card
+
+$\binom{48}{1} = \Comb{48}{1} = 48$
+
+$13 \cdot 2 \cdot 48 = 624$
+
+
+Probability of three of a kind
+
+Three of a kind
+
+$\frac{\binom{13}{1}\binom{4}{3}\binom{12}{1}\binom{4}{1}\binom{4}{1}}{\binom{52}{5}}$
+
+$\binom{13}{1}\binom{4}{3}$ 13 rank x 3 suites
+
+$\binom{12}{1}\binom{4}{1}$ 12 remaining rank x 1 suite
+
+$\binom{4}{1}$ 12 remaining rank x 1 suite
+
+$\binom{13}{1} = 13$
+
+$\binom{4}{3} = \Comb{4}{3} = \frac{4!}{3!(4-3)!} = 4$
+
+$\binom{12}{2} = \frac{12!}{2!(12-2)!} = 66$
+
+$\binom{4}{1} = \frac{4!}{1!(4-1)!} = 4$
+
+$13 \cdot 4 \cdot 66 \cdot 4 \cdot 4 = 54912$
+
+Single pair
+A pair is any two cards of one rank. 
+
+$H = \{x,x,a,b,c\}$ where $x,a,b,c \in \{A, 2, 3, ... K\}$
+There are $\binom{13}{1}$ ways to choose rank of $x$, there are $12$ renaming rank values for $a, b, c$. A pair is two cards of one rank, so two different suites, so we have $\binom{4}{2}$ choices for $x$ and then, the other cards can be any suite $\binom{4}{1}$ per 3 other cards. 
+
+$\frac{\binom{13}{1}\binom{4}{2}\binom{12}{3}\binom{4}{1}\binom{4}{1}\binom{4}{1}}{\binom{52}{5}}$
+
+$\binom{13}{1} = 13$
+
+$\binom{4}{2} = \Comb{4}{2} = \frac{4!}{2!(4-2)!} = 6 ?$
+
+$\binom{12}{3} = \Comb{12}{3} = \frac{12!}{3!(12-3)!} = 220$
+
+$\binom{4}{1} = 4$
+
+$13 \cdot 6 \cdot 220 \cdot 4 \cdot 4 \cdot 4 = 1098240$
+
+$\binom{52}{5} = \Comb{52}{5} = \frac{52!}{5!(52-5)!} = 2598960$
+
+$\frac{1098240}{2598960} \approx 0.42$
+
+
+\section{Four of a kind}
+Four cards of same rank, different suite
+One card of different rank
+
+$\binom{13}{1} = 13$ rank of four of a kind
+$\binom{4}{4} = 1$ suites of four of a kind
+$\binom{12}{1} = 12$ rank of remaining
+$\binom{4}{1} = 1$ suite of remaining
+
+$\frac{\binom{13}{1}\binom{4}{4}\binom{12}{1}\binom{4}{4}}{2598960}$
+
+$13 \cdot 1 \cdot 12 \cdot 4 = 624$
+
+Vickie is playing a lottery where she will choose 3 numbers between 1 and 25. No numbers are repeated and the order of the numbers does not matter. What are her chances of picking the winning combination of numbers?
+
+$\Comb{25}{3} = \frac{25!}{3!(25-3)!} = 2300$
+
+Naomi is buying a ticket for the lottery. She can pick 5 numbers, 1 through 15, with no numbers repeating. Order does not matter for her to win. What are her chances of winning?
+
+$\Comb{15}{5} = \frac{15!}{5!(15-5)!} = 3003$
+
+Hannah is playing the lottery. She can pick 5 numbers between 1 and 32, with no numbers repeating. The order of these numbers does not matter. She can also pick a bonus number between 1 and 20. What are her chances of picking all of the numbers, including the bonus, correctly?
+
+$\Comb{32}{5} = \frac{32!}{5!(32-5)!} = 201376$
+$\Comb{20}{1} = 20$
+
+
+Say you're playing Blackjack, and you have a four and a jack. If you see that one of the dealer's two cards is a five, then what's the probability that you will be dealt a card that helps you?
+
+4+J = 14
+21-14 = 7
+7 ranks can help you, $\{2, 3, 4, 5, 6, 7\}$.
+
+$7*4 = 28$
+
+How ever, two cards are already missing, (4, 5), and four cards are not available, 2 in your hand, 2 in dealers hand. 
+$\frac{26}{49} = 53\%$ 
+
+What is the chance of rolling a 3 on any given six-sided die?
+1 in 6
+
+\section{Binomial Probabilities}
+The binomial formula: 
+\begin{equation}
+B(x; n, P) = \Comb{n}{x} \cdot P^x \cdot (1-P)^{n-x}
+\end{equation}
+where x is the number of successes, n the number of trials, and P the probability of success on an individual trial e.g. Dakota is working on a research project with his friends for a government class. He and his friends have to call ten people in their town and ask if they voted in the past election. Dakota found previous research that says the likelihood of someone voting in an election in his town is 20\%. What is the probability that Dakota and his friends will find five people that voted?
+
+
+P = .2
+
+Sam is working on a computer programming project. He is creating a game that allows the player to shoot a ball into a basket in competition with the computer. The computer is set to make 60\% of the shots on the medium level. What is the probability that the computer will make exactly 3 baskets out of 10 shots?
+
+\begin{equation}
+\begin{split}
+\Binom{3}{10}{.6} \\
+\RBinom{3}{10}{.6}
+& = \frac{3628800}{6 \cdot 5040} \\
+& = \frac{3628800}{30240} \\
+& = \frac{3628800}{30240} \cdot 0.216 \cdot 0.0016384 \\
+& = 0.042467328
+\end{split}
+\end{equation}
+
+Alysha is at a local library with her best friend. They've noticed a lot of cute boys in the library, and Alysha bets that of the next twenty people to enter the library, exactly 12 will be cute boys. Assuming there is a 50\% chance that the next person to walk into the library is a cute boy, what is the probability that Alysha will win the bet?
+
+\begin{equation}
+\begin{split}
+\Binom{12}{20}{.5} \\
+\RBinom{12}{20}{.5} \\
+& = 125970 \cdot 0.000244140625 \cdot 0.00390625 \\
+& = 0.120134354
+\end{split}
+\end{equation}
+
+The first game Alex and Jon decide to play is a simple basketball game. A hoop is placed in the machine, and basketballs are dispensed to the players. The person to make the most baskets wins. Alex and Jon are once again evenly matched for this game. They decide to each shoot ten baskets. Jon will need to make six baskets to win the game. What is the probability that Jon will make only six baskets, no more and no less? Pause the video here to find the answer.
+
+\begin{equation}
+\begin{split}
+\Binom{6}{10}{.5} \\
+\RBinom{6}{10}{.5} \\
+& = 210 \cdot 0.015625 \cdot  0.0625 \\
+& = 0.205078125
+\end{split}
+\end{equation}
+
+Now Alex and Jon are playing a game that tests your reaction time. So far, Jon has won one game and Alex has won one game. There are three games left to play. In this game, Alex has an advantage. He has a better reaction time than Jon. Alex has a 60\% chance of beating Jon at capture the light. Each guy will have 15 chances to capture the light. Alex took his turn first, and captured the light 6 times. What is the probability that Jon will win the game by capturing the light 7 times?
+
+\begin{equation}
+\begin{split}
+\Binom{7}{15}{.4} \\
+\RBinom{7}{15}{.4} \\
+& = 6435 \cdot .4^7 \cdot (1-.4)^{15-7} \\
+& = 6435 \cdot 0.0016384 \cdot 0.01679616 \\
+& = 0.177083662
+\end{split}
+\end{equation}
+
+\section{Standard Deviation}
+Standard deviation is the degree in which the variables are different from the mean.
+
+\begin{equation}
+\begin{split}
+\StandardDeviation{n}{P}
+\end{split}
+\end{equation}
+where n is the population size and P is the probability of success. 
+
+Children born after the turn of the century have a 60\% probability of needing braces. What are the expected value and standard deviation for a group of 30 children surveyed?
+
+\begin{equation}
+\begin{split}
+\StandardDeviation{30}{.6} = 7.2
+\end{split}
+\end{equation}
+
+\section{Recursive Functions}
+
+The value at time n is the value at time (n - 1) plus 6. If the start value at time n = 0 is 4, the value at time n = 2 is \_\_\_\_\_.
+
+
+\begin{equation}
+\begin{split}
+\begin{cases}
+\begin{rcases}
+a_n & = a_{(n-1)}+6 \\
+a_0 & = 4 \\
+a_1 & = a_0 + 6 \\ 
+a_1 & = 4 + 6 \\ 
+a_2 & = a_1 + 6 \\
+a_2 & = 10 + 6
+\end{rcases}
+\end{cases}
+\end{split}
+\end{equation}
+
+\section{Recurrence Relations}
+
+\begin{align*}
+a_1 &= 100 \\
+a_n &= \frac{a_{n-1}}{2}
+\end{align*}
+
+\begin{align*}
+a_1 &= 100 \\
+a_2 &= \frac{{100}}{2}  \\
+a_3 &= \frac{{50}}{2}  \\
+a_4 &= \frac{{25}}{2}  \\
+a_5 &= \frac{{12.5}}{2} 
+\end{align*}
+
+\begin{align*}
+a_1 &= 0 \\
+a_n &= a_{n-1}\cdot2
+\end{align*}
+\begin{align*}
+a_1 &= 0 \\
+a_2 &= 0 \\
+a_3 &= 0 \\
+\end{align*}
+
+\begin{align*}
+a_1 &= 2 \\
+a_n &= a_{n-1}+2
+\end{align*}
+\begin{align*}
+a_1 &= 2 \\
+a_2 &= 4 \\
+a_3 &= 6
+\end{align*}
+
+\begin{align*}
+a_1 &= 1 \\
+a_n &= a_{n-1}\cdot2
+\end{align*}
+\begin{align*}
+a_1 &= 1 \\
+a_2 &= 2 \\
+a_3 &= 4 \\
+a_3 &= 8 \\
+a_3 &= 16 \\
+\end{align*}
+
+A sequence $A$ of numbers is said to be a homogeneous linear recurrence of order $k$ if, and only if, it can be recursively defined by:
+\begin{itemize}
+    \item a set of $k$ initial values
+    \item a recursive formula that expresses the $i$-th element as a linear combination of the $k$ immediately preceding elements of the sequence
+\end{itemize}
+
+\begin{align*}
+a_0 = v_0 \qquad 
+a_1 = v_1 \qquad  
+... \qquad
+a_{k-1} = v_{k-1} \\
+a_i = c_1a_{i-1} + c_2a_{i-2} + ... + c_ka_{i-k}
+\end{align*}
+Where:
+\begin{tabular}{|L|L|L|}
+\hline
+a_i & 0 \leq i < k & \text{is the $(i+1)$-th element of the sequence} \\
+v_i & 0 \leq i < k & \text{is the initial value for each of the first k elements of the sequence} \\ 
+a_i & k \leq i < \infty & \text{is the value for the $(i+1)$-th element of the sequence} \\
+c_i & 1 \leq i \leq k & \text{is the coefficient (a constant value) to multiply by the $i$-th preceding element to compose the linear combination}
+\end{tabular}
+
+\subsection{Finding the Characteristic Equation}
+\begin{align*}
+a_i = c_1a_{i-1} + & c_2a_{i-2}+...+c_ka_{i-k} \\
+& \downarrow \\
+s^i = c_1s^{i-1} + & c_2s^{i-2} +...+ c_ks^{i-k}
+\end{align*}
+
+\begin{tabular}{|L|L|}
+s^i = c_1s^{i-1} + c_2s^{i-2}+...+c_ks^{i-k} & \text{dividing by $s^{i-k}$} \\
+s^k = c_1s^{k-1} + c_2s^{k-2}+..+c_k & \text{making equal to $0$} \\
+0 = s^k - c_1s^{k-1} - c_2s^{k-2} -...-c_k & \text{an equation of order $k$}
+\end{tabular}
+
+\subsection{Finding roots of the characteristic equation}
+We can use the quadratic formula to find roots of characteristic equations of order 2:
+\begin{align*}
+0 &= ax^2 + bx + c \\
+x &= \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\end{align*}
+
+\subsection{Computing the Solution Coefficients}
+For example: $1, 5, 13, 41, 121, 365, 1093, ...$
+\begin{align*}
+a_0 = 1 \qquad a_1 = 5 \\
+a_i = 2a_{i-1} + 3a_{i-2}
+\end{align*}
+
+Convert to characteristic equation: \\
+\begin{tabular}{|L|L|}
+s^i = 2s^{i-1} + 3s^{i-k} & \\
+s^i = 2s^{i-1} + 3s^{i-2} & \text{dividing by $s^{i-2}$} \\
+s^2 = 2s + 3 & \text{making equal to $0$} \\
+0 = s^2 - 2s - 3 & \text{the characteristic equation}
+\end{tabular}
+
+\subsubsection{Finding our roots:}
+\begin{align*}
+0 &= s^2 - 2s - 3 & \text{the characteristic equation} \\
+0 &= (s \pm x)(s \pm y) & \text{factor} \\
+0 &= (s + 3)(s - 1) & \text{check by distribution} \\
+0 &= s^2 - 3s + s - 3  & \\
+0 &= s^2 - 2s - 3 & \\
+s_1 &=& \frac{-(-2)+\sqrt{(-2)^2-4(1)(-3)}}{2(1)} &=& 3 \\
+s_2 &=& \frac{-(-2)+\sqrt{(-2)^2-4(1)(-3)}}{2(1)} &=& -1
+\end{align*}
+
+\begin{align*}
+\text{Given the roots:} & \qquad s_1,s_2,...,s_k \\
+\text{We assume:} & \qquad a_i = f_1(s_1)^i + f_2(s_2)^i + ... + f_k(s_k)^i \\
+\text{We must solve the linear equation system:}  & \qquad \\
+a_0 & = f_1(s_1)^0 + f_2(s_2)^0 + ... + f_k(s_k)^0 \\ 
+a_1 & = f_1(s_1)^1 + f_2(s_2)^1 + ... + f_k(s_k)^1 \\ 
+& ... \\
+a_{k-1} & = f_1(s_1)^{k-1} + f_2(s_2)^{k-1} + ... + f_k(s_k)^{k-1}
+\end{align*}
+
+From our example: $1, 5, 13, 41, 121, 365, 1093, ...$
+
+
+\subsubsection{Solving our linear equation:}
+\begin{align*}
+\text{Initial values:} & \qquad a_0 = 1, a_1 = 5 \\
+\text{Roots:} & \qquad s_1 = 3, s_2 = -1 \\
+\text{We assume:} & \qquad a_i=f_1(3)^i + f_2(-1)^i \\ 
+\text{We must solve the linear equation:} & \qquad 1 = f_1(3)^0 + f_2(-1)^0 \\
+& \qquad 5 = f_1(3)^1 + f_2(-1)^1 \\
+\end{align*}
+\subsubsection{Solve linear equation by elimination method:}
+\begin{align*}
+1 & = f_1(3)^0 + f_2(-1)^0 \\
+5 & = f_1(3)^1 + f_2(-1)^1 \\
+1 & = f_1 + f_2 \\
+5 & = f_1(3) + f_2(-1) \\
+1(-3) & = -3(f_1 + f_2) \\
+-3 &= -3f_1 + -3f_2 \\
+5 & = f_1(3) + f_2(-1) \\
+2 &= -4f_2 \\
+\frac{2}{4} &= -\frac{4f_2}{4} \\
+-\frac{1}{2} &= f_2
+ &= 1 & = f_1 + f_2 \\
+1 & = f_1 + f_2 \\
+1 & = f_1 - \frac{1}{2} \\
+1 + \frac{1}{2} & = f_1 \\
+\frac{3}{2} &= f_1
+\end{align*}
+
+\subsubsection{Solve linear equation by substitution method:}
+\begin{align*}
+1 & = f_1 + f_2 \\
+1 - f_1 & = f_2 \\
+1 - f_1 &= f_2 \\
+5 & = f_1(3)^1 + f_2(-1)^1 \\
+5 & = f_1(3) + f_2(-1) \\
+5 & = f_1(3) + (1 - f_1)(-1) \\
+5 & = f_1(3) - 1 + f_1 \\
+6 & = f_1(3) + f_1 \\
+6 & = 4f_1 \\
+\frac{6}{4} & = \frac{4f_1}{4} \\
+\frac{3}{2} & = \frac{4f_1}{4} \\
+\frac{3}{2} & = f_1 \\
+1 & = \frac{3}{2} + f_2 \\
+1 - \frac{3}{2} & =  f_2 \\
+-\frac{1}{2} &= f_2
+\end{align*}
+\subsubsection{Solve}
+\begin{align*}
+a_i = f_1(s_1)^i + f_2(s_2)^i \\
+a_i = \frac{3}{2}(3)^i + (^-\frac{1}{2}(^-1)^i) \\
+a_i = \frac{3(3)}{2}^i + \frac{-1(-1)}{2}^i \\
+a_i = \frac{3^{i+1}}{2} + \frac{-1^{i+1}}{2} \\
+a_i = \frac{3^{i+1} + -1^{i+1}}{2} \\
+\end{align*}
+$3(3)^i = 3^{i+1}$ because: $3^0 = 1$, $3^1 = 3$, $3^2 = 3 \cdot 3$
+
+\subsection{Solving a linear recurrence}
+For example: $1, 2, 4, 8, 16, 32, 64, ...$
+\begin{align*}
+a_0 &= 1 \\
+a_1 &= 2 \\
+a_i &= a_{i-1} + 2a_{i-2}
+\end{align*}
+Convert to characteristic equation:
+\begin{align*}
+a_0 &= 1 & \\
+a_1 &= 2 & \\
+a_i &= a_{i-1} + 2a_{i-2} & \\
+& \downarrow & \\
+s^i &= s^{i-1} + 2s^{i-2}  & \text{divide by by $s^{i-2}$} \\
+s^{i-(i-2)} &= s^{(i-1)-(i-2)} + 2s^{(i-2)-(i-2)}  & \text{divide by by $s^{i-2}$} \\
+s^{-(-2)} &= s^{(i-1)-(i-2)} + 2s^{(i-2)-(i-2)}  & \text{divide by by $s^{i-2}$} \\
+s^{2} &= s^{(i-1)-(i-2)} + 2s^0  & \text{divide by by $s^{i-2}$} \\
+s^2 &= s + 2 & \text{Set to 0} \\
+0 &= -s^2 + s + 2 & \\
+\end{align*}
+
+Find roots of characteristic equation:
+\begin{align*}
+0 &= ^{-}\!s^2 + s + 2 & \text{find roots}\\
+0 &= ax^2 + bx + c \\
+0 &= \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \\
+0 &= \frac{-1 \pm \sqrt{1^2 - 4(-1)2}}{2(-1)} \\
+0 &= \frac{-1 \pm \sqrt{1 - ^{-}8}}{^{-}2} \\
+0 &= \frac{-1 \pm \sqrt{1 + 8}}{^{-}2} \\
+0 &= \frac{-1 \pm \sqrt{9}}{^{-}2} \\
+0 &= \frac{-1 \pm \sqrt{9}}{^{-}2} \\
+0 &= \frac{-1 \pm 3}{^{-}2} \\
+s_1 &= \frac{-1 + 3}{^{-}2} \\
+s_1 &= \frac{2}{^{-}2} \\
+s_1 &= -1 \\
+s_2 &= \frac{-1 - 3}{^{-}2} \\
+s_2 &= \frac{-4}{^{-}2} \\
+s_2 &= 2 \\
+\end{align*}
+
+Solving our linear equation:
+\begin{align*}
+\text{Initial values:} & \qquad a_0 = 1, a_1 = 2 \\
+\text{Roots:} & \qquad s_1 = -1, s_2 = 2 \\
+\text{We assume:} & \qquad a_i = f_1(s_1)^i + f_2(s_2)^i + ... + f_k(s_k)^i \\ 
+\text{We must solve the linear equation:} 
+& \qquad a_0 = f_1(^{-}1)^0 + f_2(2)^0 \\
+& \qquad a_1 = f_1(^{-}1)^1 + f_2(2)^1 \\
+\end{align*}
+Solving using substitution method: 
+NOTE: TODO
+\begin{align*}
+\end{align*}
+Solving using elimination method: 
+\begin{align*}
+1 &= f_1 + f_2 \\
+2 &= -f_1 + 2f_2 \\
+1 &= f_2 \\
+1 &= f_1 + 1 \\
+0 &= f_1  \\
+\end{align*}
+Solve
+\begin{align*}
+a_i &= f_1(s_1)^i + f_2(s_2)^i \\
+a_0 &= f_1(s_1)^0 + f_2(s_2)^0 \\
+a_0 &= f_1 + f_2 \\
+1 &= 0 + 1 \\
+a_1 &= f_1(s_1)^1 + f_2(s_2)^1 \\
+a_1 &= f_1(^{-}1)^1 + f_2(2)^1 \\
+a_1 &= ^{-}f_1 + 2f_2 \\
+a_1 &= ^{-}0 + 2 \\
+a_1 &= 2 \\
+4 &= f_1(^{-}1)^2 + f_2(2)^2 \\
+4 &= f_1 + 4f_2 \\
+4 &= 0 + 4(1) \\
+8 &= f_1(^{-}1)^3 + f_2(2)^3 \\
+8 &= ^{-1}f_1 + 8f_2 \\
+8 &= ^{-1}(0) + 8(1) \\
+8 &= 0 + 8 \\
+\end{align*}
+
+For example: $1, 1, 2, 3, 5, 8, 13, …$
+
+Convert to characteristic equation: 
+\begin{align*}
+a_0 &= 1 \\
+a_1 &= 1 \\
+a_i &= a_{i-1} + a_{i-2} \\
+& \downarrow \\
+s^i &= s^{i-1} + s^{i-2} \\
+0 &= ^{-}s^2 + s + 1
+\end{align*}
+
+Find roots:
+\begin{align*}
+0 & = ^{-}s^2 + s + 1\\
+0 &= ax^2 + bx + c \\
+0 &= \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \\ 
+0 &= \frac{-1 \pm \sqrt{1^2 - 4(^{-}1)(1)}}{2(^{-}1)} \\ 
+0 &= \frac{-1 \pm \sqrt{1 - (^{-}4)}}{^{-}2} \\ 
+0 &= \frac{-1 \pm \sqrt{5}}{^{-}2} \\ 
+s_1 &= \frac{-1 + \sqrt{5}}{^{-}2} \\ 
+s_1 &= \frac{-1}{^{-}2} + \frac{\sqrt{5}}{^{-}2} \\ 
+s_1 &= \frac{1}{2} + \frac{\sqrt{5}}{^{-}2} \\ 
+s_1 &= \frac{1}{2} + ^{-}\frac{\sqrt{5}}{2} \\ 
+s_1 &= \frac{1}{2} - \frac{\sqrt{5}}{2} \\ 
+s_1 &= \frac{1-\sqrt{5}}{2} \\ 
+s_2 &= \frac{-1 - \sqrt{5}}{^{-}2} \\ 
+s_2 &= \frac{-1}{^{-}2} - \frac{\sqrt{5}}{^{-}2}\\ 
+s_2 &= \frac{1}{2} - \frac{\sqrt{5}}{^{-}2}\\ 
+s_2 &= \frac{1}{2} - ^{-}\frac{\sqrt{5}}{2}\\ 
+s_2 &= \frac{1}{2} + \frac{\sqrt{5}}{2}\\ 
+s_2 &= \frac{1 + \sqrt{5}}{2}\\ 
+\end{align*}
+
+\begin{align*}
+\text{Initial values:} & \qquad a_0 = 1, a_1 = 1 \\
+\text{Roots:} & \qquad s_1 =  \frac{-1 + \sqrt{5}}{^{-}2}, s_2 = \frac{-1 - \sqrt{5}}{^{-}2} \\
+\text{We assume:} & \qquad a_i = f_1(s_1)^i + f_2(s_2)^i + ... + f_k(s_k)^i \\ 
+\text{We must solve the linear equation:} 
+& \qquad a_0 = f_1(\frac{-1 + \sqrt{5}}{^{-}2})^0 + f_2(\frac{-1 - \sqrt{5}}{^{-}2})^0 \\
+& \qquad a_1 = f_1(\frac{-1 + \sqrt{5}}{^{-}2})^1 + f_2(\frac{-1 - \sqrt{5}}{^{-}2})^1 \\
+\end{align*}
+\begin{align*}
+a_0 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2})^0 + f_2(\frac{-1 - \sqrt{5}}{^{-}2})^0 \\
+a_0 &= f_1 + f_2 \\ 
+a_0 - f_2 &= f_1  \\ 
+f_1 &= a_0 - f_2 \\ 
+f_1 &= 1 - f_2 \\ 
+f_1 &= 1 - f_2 \\ 
+a_0 &= 1 - f_2 + f_2 \\ 
+a_0 - f_1 &= f_2 \\ 
+f_1 &= 1 - f_2 \\ 
+f_2 &= 1 - f_1 \\ 
+a_0 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2})^0 + (1 - f_1)(\frac{-1 - \sqrt{5}}{^{-}2})^0 \\
+a_0 &= f_1 + 1 - f_1 \\\
+a_0 &= 1 \\
+a_1 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2})^1 + (1 - f_1)(\frac{-1 - \sqrt{5}}{^{-}2})^1 \\
+a_1 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2}) + 1 + (^{-}f_1)(\frac{-1 - \sqrt{5}}{^{-}2}) \\
+a_1 &= f_1 + 1 + (^{-}f_1) \\
+a_1 &= 1  \\
+a_2 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2})^2 + (1 - f_1)(\frac{-1 - \sqrt{5}}{^{-}2})^2 \\
+a_2 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2})^2 + (1 - f_1)(\frac{-1^2 - \sqrt{5}^2}{^{-}2^2}) \\
+a_2 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2})^2 + (1 - f_1)(\frac{1 - 5}{4}) \\
+a_2 &= f_1(\frac{-1 + \sqrt{5}}{^{-}2})^2 + (1 - f_1)(\frac{^{-}4}{4}) \\
+\end{align*}
+\subsection{Divide and Conquer Recurrences}
+\begin{align*}
+f(n) = af(\frac{n}{b}) + cn^d
+\end{align*}
+where:
+\begin{align*}
+n = b^k; k \in \mathbb{N}; a,b \in \mathbb{N}; b > 1; c,d \in \mathbb{R}; c > 0; d \geq \mathbb{N}
+\end{align*}
+Then, $f(n)$ is:
+\begin{align*}
+& O(n^d) & \text{if $a < b^d$} \\
+& O(n^d\log n) & \text{if $a = b^d$} \\
+& O(n^{\log_b a}) & \text{if $a > b^d$} \\
+\end{align*}
+
+For example, a binary search recurrence relation is
+\begin{align}
+f(n) = f(\frac{n}{2}) + 2
+\end{align}
+or more literally:
+\begin{align}
+f(n) &= 1f(\frac{n}{2}) + 2n^0 &\\
+1 &\nleq 2^0 &\\
+1 &= 2^0 &\text{therefore:} \\
+&O(n^0\log n)& \\
+&O(\log n)& \\
+\end{align}
+\begin{align*}
+f(n) &= 2f(\frac{n}{2}) + 2 \\
+f(n) &= 2f(\frac{n}{2}) + 2n^0 \\
+& O(n^d) & \text{if $2 < 2^0$} \\
+& O(n^d\log n) & \text{if $2 = 2^0$} \\
+& O(n^{\log_b a}) & \text{if $2 > 2^0$} \\
+& O(n^{\log_2 2}) & \text{substitute}\\
+& O(n) & \text{simplify}\\
+\end{align*}
+\begin{align*}
+f(n) &= 7f(\frac{n}{2}) + \frac{15n^2}{4} \\
+& O(n^d) & \text{if $7 < 2^2$} \\
+& O(n^d\log n) & \text{if $7 = 2^2$} \\
+& O(n^{\log_b a}) & \text{if $7 > 2^2$} \\
+& O(n^{\log_2 7}) & \text{since $7 > 2^2$} \\
+\end{align*}
+
+\begin{align*}
+&f(n) = 8f(n/2) + n^3 & \\
+&f(n) = 8f(n/2) + 1n^3 & \\
+& O(n^d) & \text{if $8 < 2^3$} \\
+& O(n^d\log n) & \text{if $8 = 2^3$} \\
+& O(n^{\log_b a}) & \text{if $8 > 2^3$} \\
+& O(n^3\log n) & \text{since $8 = 2^3$} \\
+\end{align*}
+
+\begin{align*}
+& f(n) = 16f(n/4) + n \\
+& O(n^d) & \text{if $16 < 4^0$} \\
+& O(n^d\log n) & \text{if $16 = 4^0$} \\
+& O(n^{\log_b a}) & \text{if $16 > 4^0$} \\
+& O(n^{\log_4 16})  = O(n^2) & \text{since $16 > 4^0$} \\
+\end{align*}
+\begin{align*}
+& f(n) = 4f(n/8) + 1n^2 \\
+& O(n^d) & \text{if $4 < 8^2$} \\
+& O(n^d\log n) & \text{if $4 = 8^2$} \\
+& O(n^{\log_b a}) & \text{if $4 > 8^2$} \\
+& O(n^2) & \text{since $4 < 8^2$} \\
+\end{align*}
+
+\subsection{General Inclusion-Exclusion Principle Formula}
+\begin{align*}
+|A_1\cup A_2\cup...A_n| = &\sum_{1\leq i \leq n}|A_i| - \\&\sum_{1\leq i \le j \leq n}|A_i \cap A_j| + \\ & \sum_{1 \leq i \le j \le k \leq n}|A_i \cap A_j \cap A_k| - ... + (-1)^{n+1}|A_1\cap A_2\cap ... \cap A_n|
+\end{align*}
+For example applying this to three sets: 
+\begin{align*}
+|A_1 \cup A_2 \cup A_3| =  &\sum_{1\leq i \leq 3}|A_i|  - \\&\sum_{1\leq i \le j \leq 3}|A_i \cap A_j| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + (-1)^{3+1}|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|   - \\&\sum_{1\leq i \le j \leq 3}|A_i \cap A_j| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + (-1)^{3+1}|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|   - \\&\sum_{1\leq i \le j \leq 3}|A_i \cap A_j| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + 1|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|    - \\& |A_1 \cap A_2| - |A_2 \cap A_3| - |A_1 \cap A_3| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + 1|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|  - \\& |A_1 \cap A_2| - |A_2 \cap A_3| - |A_1 \cap A_3| + \\ & 1|A_1\cap A_2 \cap A_3| \\
+\end{align*}
+
+Consider an example with 100 students where 20 are taking discrete math, 30 are taking Java, 25 are taking web design, 6 are taking discrete math and Java, 8 are taking discrete math and web design, 10 are taking Java and web design and 5 are taking all three classes. How many students are not taking any of these three classes?
+\begin{align*}
+|U|&= 100 \\
+|J|&=30\\
+|D|&=20\\
+|W|&=25\\
+|D|\cap|J|&=6\\
+|D|\cap|W|&=8\\
+|J|\cap|W|&=10\\
+|J|\cap|W|\cap|D|&=5\\
+A = \{J, D, W\}\\
+|A_1 \cup A_2 \cup A_3| =  &\sum_{1\leq i \leq 3}|A_i|  - \\&\sum_{1\leq i \le j \leq 3}|A_i \cap A_j| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + (-1)^{3+1}|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|   - \\&\sum_{1\leq i \le j \leq 3}|A_i \cap A_j| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + (-1)^{3+1}|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|   - \\&\sum_{1\leq i \le j \leq 3}|A_i \cap A_j| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + 1|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|    - \\& |A_1 \cap A_2| - |A_2 \cap A_3| - |A_1 \cap A_3| + \\ & \sum_{1 \leq i \le j \le k \leq 3}|A_i \cap A_j \cap A_k| - ... + 1|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & |A_1| + |A_2| + |A_3|  - \\& |A_1 \cap A_2| - |A_2 \cap A_3| - |A_1 \cap A_3| + \\ & 1|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & 30 + 20 + 25  - \\& |A_1 \cap A_2| - |A_2 \cap A_3| - |A_1 \cap A_3| + \\ & 1|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & 30 + 20 + 25  - \\& 6 - 8 - 10 + \\ & 1|A_1\cap A_2 \cap A_3| \\
+|A_1 \cup A_2 \cup A_3| = & 30 + 20 + 25  - \\& 6 - 8 - 10 + \\ & 1|30 \cap 20 \cap 25| \\
+|A_1 \cup A_2 \cup A_3| = & 30 + 20 + 25  - \\& 6 - 8 - 10 + \\ & 5 \\
+|A_1 \cup A_2 \cup A_3| = & 75  - \\& 6 - 8 - 10 + \\ & 5 \\
+\end{align*}
+\subsection{Graphs}
+TODO: isomorphic graphs, homomorphic graphs, adjaceny matrix and list
+
+An Euler path is a path in a graph where each side is traversed exactly once. A graph with an Euler path in it is called semi-Eulerian. At most, two of these vertices in a semi-Eulerian graph will be odd. All others will be even. An Euler circuit is a circuit in a graph where each edge is traversed exactly once and that starts and ends at the same point. A graph with an Euler circuit in it is called Eulerian. All the vertices in an Eulerian graph will be even. A Eulerian cirtuit can have no vertices with odd order of edges, a graph with a Eulerian path can have either 0 or 2 vertices with an odd order of edges.
+
+Euler's circuit theorem: 'If a graph's vertices all are even, then the graph has an Euler circuit. Otherwise, it does not have an Euler circuit.'
+
+Euler's path theorem: 'If a graph has exactly two vertices of odd degree, then it has an Euler path that starts and ends on the odd-degree vertices. Otherwise, it does not have an Euler path.'
+
+Euler's sum of degrees theorem: 'the sum of the degrees of the vertices in any graph is equal to twice the number of edges.'
+
+Hamilton circuit: a circuit that goes to each vertex just once and ends up at the start point. 
+
+Hamilton path: a path that goes to each vertex just once but ends up in a different spot.
+
+Complete graph: a graph where each vertex is connected to every of the other vertices. The number of Hamilton circuits such a graph has is $(N - 1)!$.
+
+\subsubsection{Travel Salesman Problem}
+Brute Force Method: inefficient but optimal path
+Nearest Neighbor Method: efficient but not optimal path
+Repeated Nearest Neighbor Method: efficient and more optimal then nearest neighbor
+Cheapest Link Method: efficient but not optimal
+
+\subsection{Trees}
+TODO: Minimum Spanning Trees
+Kruskal's Algorithm
+Prim's Algorithm
+Explicit Enumeration
+
+
+\subsection{Matrices}
+TODO: column vs row (lmao)
+Matrix Multiplication
+\subsubsection{Dot Product}
+Multiply rows of matrix A by columns of matrix B, for each row column pair sum the results of the multiplication.
+
+\subsubsection{Rotations}
+$90^o$ counter clock wise
+\begin{equation}
+\begin{bmatrix}
+   0  &  -1 \\
+   1  &   0
+\end{bmatrix}
+\end{equation}
+$180^o$ counter clock wise
+\begin{equation}
+\begin{bmatrix}
+   0  &  -1 \\
+   -1  &   0
+\end{bmatrix}
+\end{equation}
+
+$270^o$ counter clock wise
+\begin{equation}
+\begin{bmatrix}
+   0  &  1 \\
+   -1  &   0
+\end{bmatrix}
+\end{equation}
+
+The shape ABC is located at (1,1), (4,0), and (-1,-1). Using matrices, rotate this shape 90 degrees in the counterclockwise direction. What are the coordinates for A'B'C'?
+
+\begin{equation}
+\begin{aligned}
+\begin{bmatrix}
+   0  &  1 \\
+   -1  &   0
+\end{bmatrix} \cdot 
+\begin{bmatrix}
+   1 \\ 1 \\
+\end{bmatrix} = \\
+\begin{bmatrix}
+   0  &  1 \\
+   -1  &   0
+\end{bmatrix} \cdot 
+\begin{bmatrix}
+   1  &  1 \\
+\end{bmatrix} \\
+\begin{bmatrix}
+   0  &  1 \\
+   -1  &   0
+\end{bmatrix} \cdot 
+\begin{bmatrix}
+   1  &  1 \\
+\end{bmatrix} 
+\end{aligned}
+\end{equation}
+\subsection{Boolean}
+\subsubsection{De Morgan's Law}
+\begin{align*}
+\neg(A \lor B) = (\neg A) \land ( \neg B) \\
+\neg(A \land B) = (\neg A) \lor ( \neg B) \\
+\end{align*}
+Karnaugh Map -- Clusters or groupings of the 1 output in a Karnaugh Map is what you look for to simplify a Boolean expression.
+
+Gray Code: binary numbers are ordered in a way that only one digit differs from one number to the next.
+Disjunction is the same as the OR operation.
+Conjuction is the same as the AND operation.
+
+\end{document}
+
