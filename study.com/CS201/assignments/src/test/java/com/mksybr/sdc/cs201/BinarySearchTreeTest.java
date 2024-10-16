@@ -37,7 +37,6 @@ class BinaryTreeSearchTests {
 
     @Test
     public void creation() {
-        // https://www.algolist.net/Data_structures/Binary_search_tree/Removal
         var subject = new Tree<Integer>(new Node<Integer>(1));
         var expected = new Tree<Integer>(Arrays.asList(1));
         

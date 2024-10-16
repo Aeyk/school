@@ -23,6 +23,7 @@ public class BinarySearchTree {
         }
     }
 
+    /** Main event loop. Take user input and interact with the tree. */
     static void menu(int choice) {
         switch(choice) {
             case 1, 2 -> {
@@ -50,6 +51,8 @@ public class BinarySearchTree {
             }
         }
     }
+
+    /** Read a list of whitespace seperated integers. */
     static List<Integer> readIntegers() {
         List<Integer> result = Collections.emptyList();
         if(scanner.hasNextLine()) {
@@ -86,6 +89,7 @@ class Tree<T extends Comparable<T>> implements Comparable<Tree<T>> {
         }
     }
 
+    /** Remove a node from the tree, rebalancing subtree nodes if necessary.  */
     public void remove(T t) {
         this.root.remove(t, null);
     }
@@ -109,13 +113,18 @@ class Tree<T extends Comparable<T>> implements Comparable<Tree<T>> {
     public List<T> postorder() {
         return root.postorder();
     }
+    
+    
+    /**
+     * Compare one tree with another. They're equal if ever element is equal. Otherwise the one with the most missing
+     * pieces is the lesser tree. 
+     */
     @Override
     public int compareTo(Tree<T> other) {
         
         var accumulator = 0;
         return this.compareTo(other, accumulator);
     }
-
     private int compareTo(Tree<T> other, int accumulator) {
         accumulator += this.root.compareTo(other.root);
         if(this.root.getLeft() != null && other.root.getLeft() != null)
@@ -146,9 +155,10 @@ class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
     public T getValue() {
         return t;
     }
-    public int getChildrenCount() {
+    private int getChildrenCount() {
         return (null == left ? 0 : 1) + (null == right ? 0 : 1);
     }
+    /** Add a node. */
     public void add(T addition) {
         if(this.t == null)
             this.t = addition;
@@ -166,6 +176,7 @@ class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
         }
     }
 
+    /** Remove a node, rebalancing subtree if necessary.  */
     public void remove(T t, Node<T> parent) {
         Node<T> removal = new Node<T>(t);
         if(0 < this.compareTo(removal)) {
