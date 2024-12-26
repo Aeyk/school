@@ -1,3 +1,61 @@
+:root {
+  --bg-color: #E0D2BD;
+  --color-a: #4B4A1E;
+  --color-b: #79512E;
+  --color-c: #9D352E;
+  --color-d: #790D1D;
+  --color-e: #00231C;
+  --font-title-large: bold 30px "Arial";
+  --font-title: bold 25px "Arial";
+  --font-subtitle: 15px "Comfortaa";
+  --font-body-large: 16px "Calibri";
+  --font-body-strong: bold 16px "Calibri";
+  --font-body: 16px "Calibri";
+  --font-captions: 11px "Arial";
+}
+
+/* @font-face { */
+/*   font-family: "Arial"; */
+/*   src:  */
+/*        url('./ArialBold.ttf') format('truetype'); */
+/* } */
+
+/* @font-face { */
+/*   font-family: "Comfortaa"; */
+/*   src:  */
+/*        url('./ArialBold.ttf') format('truetype'); */
+/* } */
+
+
+/* @font-face { */
+/*   font-family: "Calibri"; */
+/*   src:  */
+/*        url('./ArialBold.ttf') format('truetype'); */
+/* } */
+
+
+html, body, p, h1, h2, h3, h4, h5 {
+    color: var(--color-e);
+    background-color: var(--bg-color);
+}
+html, body, p {
+    font: var(--font-body);
+}
+h1,h2,h3,h4,h5,h6 {
+    font: var(--font-title);
+}
+a {
+    color: var(--color-d);
+}
+
+a:hover {
+    color: var(--color-c);
+
+}
+
+a:active{
+    color: var(--color-c);
+}
 .container{
     /* height: 100%; */
     font-size: 1.17em;
