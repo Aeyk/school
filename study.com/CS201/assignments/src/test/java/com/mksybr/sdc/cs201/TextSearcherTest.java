@@ -9,12 +9,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-// [ERROR] Failures:
-// [ERROR]   TextSearcherTest.testMatch_1:35 expected: <16> but was: <18>
-// [ERROR]   TextSearcherTest.testMatch_2:41 expected: <19> but was: <20>
-// [ERROR]   TextSearcherTest.testNonMatch_2:59 expected: <-1> but was: <7>
-
 class TextSearcherTest {
     @Test
     public void testGoodCharacterTable_0() {
@@ -31,43 +25,43 @@ class TextSearcherTest {
     @Test
     public void testMatch_0() {
         var subject = Search.indexAt("hello world", "wor");
-        var expected = 5;
+        var expected = new ArrayList<Integer>(Arrays.asList(5));
         assertEquals(expected, subject);
     }
     @Test
     public void testMatch_1() {
         var subject = Search.indexAt("Here is a simple example.", "example");
-        var expected = 16;
+        var expected = new ArrayList<Integer>(Arrays.asList(16));
         assertEquals(expected, subject);
     }
     @Test
     public void testMatch_2() {
         var subject = Search.indexAt("Here is the simple example.", "example");
-        var expected = 18;
+        var expected = new ArrayList<Integer>(Arrays.asList(18));
         assertEquals(expected, subject);
     }
     @Test
     public void testMatch_3() {
         var subject = Search.indexAt("Hello world", "Hello");
-        var expected = 0;
+        var expected = new ArrayList<Integer>(Arrays.asList(0));
         assertEquals(expected, subject);
     }
     @Test
     public void testNonMatch_0() {
         var subject = Search.indexAt("hello world", "worf");
-        var expected = -1;
+        var expected = new ArrayList<Integer>();
         assertEquals(expected, subject);
     }
     @Test
     public void testNonMatch_1() {
         var subject = Search.indexAt("hello world", "wofr");
-        var expected = -1;
+        var expected = new ArrayList<Integer>();
         assertEquals(expected, subject);
     }
     @Test
     public void testNonMatch_2() {
         var subject = Search.indexAt("hello world", "dor");
-        var expected = -1;
+        var expected = new ArrayList<Integer>();
         assertEquals(expected, subject);
     }
 }

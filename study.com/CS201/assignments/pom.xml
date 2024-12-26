@@ -17,7 +17,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>22</maven.compiler.source>
     <maven.compiler.target>22</maven.compiler.target>
-    <java.main.class>com.mksybr.sdc.cs201.TextSearcher</java.main.class>
+    <!-- <java.main.class>com.mksybr.sdc.cs201.TextSearcher</java.main.class> -->
+    <java.main.class>com.mksybr.sdc.cs201.BinarySearchTree</java.main.class>
 
   </properties>
 

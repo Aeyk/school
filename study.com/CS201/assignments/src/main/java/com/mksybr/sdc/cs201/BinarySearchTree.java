@@ -26,7 +26,13 @@ public class BinarySearchTree {
     /** Main event loop. Take user input and interact with the tree. */
     static void menu(int choice) {
         switch(choice) {
-            case 1, 2 -> {
+            case 1 -> {
+                tree = new Tree<Integer>();
+                readIntegers().forEach(i -> {
+                    tree.add(i);
+                });
+            } 
+            case 2 -> {
                 readIntegers().forEach(i -> {
                     tree.add(i);
                 });
@@ -65,6 +71,7 @@ public class BinarySearchTree {
                 return readIntegers();
             }
         }
+                
         return result;
     }
 }
@@ -82,16 +89,19 @@ class Tree<T extends Comparable<T>> implements Comparable<Tree<T>> {
     }
     
     public void add(T t) {
-        if(null == root) {
-            root = new Node<T>(t);
+        if(null == this.root) {
+            this.root = new Node<T>(t);
         } else {
-            root.add(t);
+            this.root.add(t);
         }
     }
 
     /** Remove a node from the tree, rebalancing subtree nodes if necessary.  */
     public void remove(T t) {
-        this.root.remove(t, null);
+        if(root.getValue() == t)
+            root = null;
+        else
+            this.root.remove(t, null);
     }
 
     @Override
@@ -126,6 +136,13 @@ class Tree<T extends Comparable<T>> implements Comparable<Tree<T>> {
         return this.compareTo(other, accumulator);
     }
     private int compareTo(Tree<T> other, int accumulator) {
+        if(this.root == null && other.root != null)
+            return -1;
+        else if(this.root != null && other.root == null)
+            return 1;
+        else if(this.root == null && other.root == null)
+            return 0;
+
         accumulator += this.root.compareTo(other.root);
         if(this.root.getLeft() != null && other.root.getLeft() != null)
             accumulator += this.root.getLeft().compareTo(other.root.getLeft());
@@ -192,9 +209,11 @@ class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
         } else {
             if (this.getChildrenCount() == 2) {
                 this.t = parent.successor();
-            } else if(parent.left.t == this.t) {
+            } 
+            else if(parent.left != null && parent.left.t == this.t) {
                 parent.left = (this.left != null) ? left : right;
-            } else if(parent.right.t == this.t) {
+            } 
+            else if(parent.right.t == this.t) {
                 parent.right = (this.left != null) ? left : right;
             } 
             return;

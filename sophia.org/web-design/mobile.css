@@ -1,0 +1,131 @@
+.container{
+    /* height: 100%; */
+    font-size: 1.17em;
+    min-height: 100%;
+    /* max-width: 100%; */
+    /* grid-template-rows: auto auto 1fr; */
+}
+body > * {
+    /* max-width: 100%; */
+    column-gap: 50px;
+    margin: 0px 75px 0px 75px;
+    row-gap: 15px;
+}
+
+nav > ul {
+    font-size: 0.8rem;
+    display: grid;
+    align-items: center;
+    list-style-type: none;
+}
+
+nav > ul > li {
+    grid-row: 1;
+}
+nav > h1 {
+    display: none
+}
+.container {
+    display: grid;
+    grid-template-rows: 120px repeat(4, 1fr) 80px;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+    color: grey;
+}
+.gallery,.about-us,.testimonials {
+    grid-row: 2 / 6;
+}
+.hero {
+    display: none;
+}
+
+.promos {
+    grid-row: 2;
+    display: grid;
+}
+
+li.promo {
+    grid-column: 1;
+}
+
+li.perk {
+    grid-column: 2;
+}
+
+.products {
+    grid-row: 3;
+    display: grid;
+}
+
+.product {
+    grid-row: 1;
+    display: grid; 
+}
+.product > img {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.product > .detail {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.categories {
+    grid-row: 4;
+    display: grid;
+}
+.categories > h2 {
+    display: none;
+}
+
+.categories > div {
+    grid-row: 2;
+}
+.categories > div > p {
+    display: none;
+}
+.trusted {
+    grid-row: 5;
+}
+ul.clients {
+    display: grid;
+}
+.trusted > ul.clients > li.client {
+    grid-row: 1;
+    list-style-type: none;
+}
+
+footer {
+    grid-row: 6;
+    align-self: end;
+}
+
+footer > ul {
+    align-self: end;
+    display: grid;
+    align-items: center;
+    /* grid-template-columns: repeat(6, minmax(0, 1fr)); */
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-row: 1fr;
+    list-style-type: none;
+}
+footer > ul > li > ul.socials  {
+    display: grid;
+    list-style-type: none;
+    grid-template-columns:  repeat(2, minmax(0, 1fr));
+    grid-template-rows:  repeat(2, minmax(0, 1fr));
+}
+footer > ul > ul.socials > li{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+footer > ul > li {
+    font-size: 0.6rem;
+    grid-row: 1;
+}

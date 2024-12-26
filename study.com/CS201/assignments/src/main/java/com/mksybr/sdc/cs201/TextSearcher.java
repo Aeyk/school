@@ -3,13 +3,13 @@ package com.mksybr.sdc.cs201;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
 public class TextSearcher {
-    
     static private Scanner scanner = new Scanner(System.in);
     static private String data = Arrays.asList("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming").stream().reduce((a, b) -> a.concat(b)).get();
     public static void main(String[] args) {
@@ -31,8 +31,9 @@ public class TextSearcher {
             }
             case 2 -> {
                 var query = scanner.nextLine();
-                System.out.println(query);
-                System.out.println(Search.indexAt(data, query));
+                var indices = new ArrayList<Integer>();
+                var match = Search.indexAt(data, query);
+                System.out.println(match);
             }
             case 3 -> {
                 scanner.close();
@@ -43,9 +44,18 @@ public class TextSearcher {
 }
 
 class Search {
-    public static int indexAt(String haystack, String needle) {
+    /** 
+     * Return the indices that the needle is found in the haystack by
+     * utilizing Boyer-Moore algorithm.  Firstly, preprocess bad
+     * charactger and good suffix tables.  Then iterate through the
+     * haystack, skipping ahead by the larger result of looking up the
+     * current status in the table. Accumulate the indices and return
+     * at the end.
+     */
+    public static ArrayList<Integer> indexAt(String haystack, String needle) {
         HashMap<Character, Integer> badCharacterTable = makeBadCharacterTable(needle);
         HashMap<Integer, Integer> goodSuffixTable = makeGoodSuffixTable(needle);
+        ArrayList<Integer> indices = new ArrayList<Integer>();
         String suffix = "";
         StringBuilder sb = new StringBuilder("");
         if(Global.DEBUG)
@@ -73,9 +83,8 @@ class Search {
                                     needle.substring(patternIndex - lookback, patternIndex + 1));
                             }
                             if(haystack.charAt(index - lookback) == needle.charAt(patternIndex - lookback)) {
-                                if(index == needle.length() - 1)
-                                    index += 1;
-                                return index - lookback - 1;
+                                // Use max of index and 0, incase we match 0th index
+                                indices.add(Math.max(0, index - lookback - 1));
                             } else {
                                 break lookback;
                             }
@@ -111,12 +120,15 @@ class Search {
             index += Math.max(badCharacterSkip, goodSuffixSkip) - 1;
         }
         if(suffix.equals(needle)) {
-            return index - patternIndex;
-        } else {
-            return -1;
+            indices.add(index - patternIndex);
         }
+        return indices;
     }
-
+    /**
+     * Calculate the bad character table-- the amount we need to skip
+     * forward to either align the mismatched character or move past
+     * the end.
+     */
     public static HashMap<Character, Integer> makeBadCharacterTable(String needle) {
         if(Global.DEBUG)
             System.out.printf("makeBadCharacterTable\n");
@@ -131,7 +143,10 @@ class Search {
         }
         return badCharacterTable;
     }
-
+    /**
+     * Calculate the good suffix table-- the amount we need to skip
+     * forward to align the matching suffix.
+     */
     public static HashMap<Integer, Integer> makeGoodSuffixTable(String needle) {
         if(Global.DEBUG)
             System.out.printf("makeGoodSuffixTable\n");
