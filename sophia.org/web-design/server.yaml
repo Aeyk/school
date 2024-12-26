@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sophia-assignment
+spec:
+  ports:
+  - name: app
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: sophia-assignment
+subsets:
+- addresses:
+  - ip: 10.0.0.4
+  ports:
+  - name: app
+    port: 8080
+    protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sophia-assignment
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: sophia-assignment.home.mksybr.com
+    http:
+      paths:
+      - backend:
+          service: 
+            name: sophia-assignment
+            port: 
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - '*.home.mksybr.com'
+    secretName: letsencrypt-prod
